@@ -136,11 +136,19 @@ class BartonTwins(BenchmarkModule):
 
 model = BartonTwins(dataloader_train_kNN, gpus=gpus, classes=classes, knn_k=knn_k, knn_t=knn_t)
 
+mname = "barlow" + str(seed) 
+
+checkpoint_callback = pl.callbacks.ModelCheckpoint(
+        dirpath="./ckpt/" + mname + "/",
+        save_top_k=-1,
+        save_weights_only=True,
+        every_n_train_steps=20)
+
 trainer = pl.Trainer(max_epochs=max_epochs, gpus=gpus,
-                    progress_bar_refresh_rate=100)
+                     callbacks=[checkpoint_callback])
 trainer.fit(
     model,
-    train_dataloader=dataloader_train_ssl,
+    train_dataloaders=dataloader_train_ssl,
     val_dataloaders=dataloader_test
 )
 
