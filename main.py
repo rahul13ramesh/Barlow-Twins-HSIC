@@ -15,7 +15,7 @@ knn_k = 200
 knn_t = 0.1
 classes = 10
 batch_size = 512
-seed=1
+seed=10
 
 pl.seed_everything(seed)
 
